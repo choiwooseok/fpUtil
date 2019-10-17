@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+void printVersion() {
+    printf("%s\n", "@FPSTRUTIL_VERSION@");
+}
+
+void printBuildDate() {
+    printf("%s\n", "@BUILD_DATE@");
+}
+
+#ifdef __cplusplus
+}
+#endif
