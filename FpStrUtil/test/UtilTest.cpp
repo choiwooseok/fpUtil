@@ -4,6 +4,8 @@
 TEST(StringUtilTest, stringUtilTest) {
     using namespace fpstr;
 
+    EXPECT_EQ(StringUtil::toUpper("asdf"), "ASDF");
+
 }
 
 int main(int argc, char** argv) {

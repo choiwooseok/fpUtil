@@ -14,6 +14,7 @@ ADD_EXECUTABLE(utilTest ${FPSTRUNITTESTS_SRC})
 TARGET_LINK_LIBRARIES(utilTest
     gtest
     gtest_main
+    pthread
 )
 
 INSTALL(

@@ -6,16 +6,22 @@ IF(!FPSTRUTIL_VERSION)
     SET(FPSTRUTIL_VERSION 0)
 ENDIF()
 
-message(STATUS "VERSION : ${FPSTRUTIL_VERSION}")
+string(TIMESTAMP BUILD_DATE "%Y-%m-%d %H:%M")
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-ADD_COMPILE_OPTIONS(-g3 -Wall -O3 -std=c++0x)
+message(STATUS "VERSION    : ${FPSTRUTIL_VERSION}")
+message(STATUS "BUILD_DATE : ${BUILD_DATE}")
+
+ADD_COMPILE_OPTIONS(-g3 -Wall -O2 -fPIC)
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 SET(CMAKE_BUILD_TYPE DEBUG)
 
-#configure_file(version.cpp.in version.cpp)
+INCLUDE(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+configure_file(version.cpp.in version.cpp)
 
 INCLUDE_DIRECTORIES(
-    ./
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 ADD_SUBDIRECTORY(test)
