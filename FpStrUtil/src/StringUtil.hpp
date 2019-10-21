@@ -8,14 +8,13 @@
 #ifndef STRINGUTIL_HPP_
 #define STRINGUTIL_HPP_
 
-#include <string>
 #include <algorithm>
 #include <cctype>
-#include <cstdlib>
-#include <memory>
-#include <iosfwd>
-#include <sstream>
-#include <vector>
+#include <chrono>
+#include <functional>
+#include <iterator>
+#include <random>
+#include <string>
 
 namespace fpstr {
 
@@ -74,11 +73,11 @@ public:
     }
 
     static std::string getAddressToIP(const std::string& address) {
-        return address.find(':') < 0 ? address : address.substr(0, address.find(':'));
+        return address.find(':') == std::string::npos ? address : address.substr(0, address.find(':'));
     }
 
     static std::string getAddressToPort(const std::string& address) {
-        return address.find(':') < 0 ? "" : address.substr(address.find(':') + 1);
+        return address.find(':') == std::string::npos ? "" : address.substr(address.find(':') + 1);
     }
 
     static bool isAlnum(const std::string& str) {
@@ -110,8 +109,9 @@ public:
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 "abcdefghijklmnopqrstuvwxyz";
         std::string s(length, ' ');
+        std::mt19937 mtRand(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count());
         for (int i = 0; i < length; ++i) {
-            s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+            s[i] = alphanum[mtRand() % (sizeof(alphanum) - 1)];
         }
 
         s[length] = '\0';
@@ -119,39 +119,24 @@ public:
     }
 
     static std::string substringBefore(const std::string& str, const std::string& separator) {
-        if (isEmpty(str) || separator == "") {
+        if (isEmpty(str) || isEmpty(separator)) {
             return str;
         }
-        if (separator.length() == 0) {
-            return "";
-        }
-        int pos = str.find(separator);
-        if (pos == -1) {
-            return str;
-        }
-        return str.substr(0, pos);
+        return str.find(separator) == std::string::npos ? str : str.substr(0, str.find(separator));
     }
 
     static std::string substringAfter(const std::string& str, const std::string& separator) {
         if (isEmpty(str)) {
             return str;
         }
-        if (separator == "") {
+        if (isEmpty(separator)) {
             return "";
         }
-        int pos = str.find(separator);
-        if (pos == -1) {
-            return "";
-        }
-        return str.substr(pos + separator.length());
+        return str.find(separator) == std::string::npos ? "" : str.substr(str.find(separator) + separator.length());
     }
 
     static bool ends_with(std::string const &fullString, std::string const &ending) {
-        if (fullString.length() >= ending.length()) {
-            return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
-        } else {
-            return false;
-        }
+        return fullString.length() >= ending.length() ? (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending)) : false;
     }
 
 public:
