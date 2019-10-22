@@ -49,6 +49,14 @@ TEST(StringUtilTest, stringUtilTest) {
 
     EXPECT_EQ(StringUtil::ends_with("asdf", "df"), true);
     EXPECT_EQ(StringUtil::ends_with("asdf", "as"), false);
+
+    EXPECT_EQ(StringUtil::trim_right("  asdf  ", " "), "  asdf");
+    EXPECT_EQ(StringUtil::trim_left("  asdf  ", " "), "asdf  ");
+    EXPECT_EQ(StringUtil::trim("  asdf  ", " "), "asdf");
+
+    EXPECT_EQ(StringUtil::trim_right("  asdf\n\n", "\n"), "  asdf");
+    EXPECT_EQ(StringUtil::trim_left("\n\nasdf  ", "\n"), "asdf  ");
+    EXPECT_EQ(StringUtil::trim("\n\nasdf\n\n", "\n"), "asdf");
 }
 
 int main(int argc, char** argv) {
