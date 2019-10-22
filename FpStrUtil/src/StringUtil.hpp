@@ -73,11 +73,11 @@ public:
     }
 
     static std::string getAddressToIP(const std::string& address) {
-        return address.find(':') == std::string::npos ? address : address.substr(0, address.find(':'));
+        return substringBefore(address, ":");
     }
 
     static std::string getAddressToPort(const std::string& address) {
-        return address.find(':') == std::string::npos ? "" : address.substr(address.find(':') + 1);
+        return substringAfter(address, ":");
     }
 
     static bool isAlnum(const std::string& str) {
@@ -135,7 +135,11 @@ public:
         return str.find(separator) == std::string::npos ? "" : str.substr(str.find(separator) + separator.length());
     }
 
-    static bool ends_with(std::string const &fullString, std::string const &ending) {
+    static bool start_with(std::string const &fullString, const std::string& starting) {
+        return fullString.length() >= starting.length() ? (0 == fullString.compare(0, starting.length(), starting)) : false;
+    }
+
+    static bool ends_with(std::string const &fullString, const std::string& ending) {
         return fullString.length() >= ending.length() ? (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending)) : false;
     }
 

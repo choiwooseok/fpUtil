@@ -44,6 +44,9 @@ TEST(StringUtilTest, stringUtilTest) {
     EXPECT_EQ(StringUtil::substringBefore("zxcv", "xc"), "z");
     EXPECT_EQ(StringUtil::substringAfter("zxcv", "zx"), "cv");
 
+    EXPECT_EQ(StringUtil::start_with("asdf", "as"), true);
+    EXPECT_EQ(StringUtil::start_with("asdf", "df"), false);
+
     EXPECT_EQ(StringUtil::ends_with("asdf", "df"), true);
     EXPECT_EQ(StringUtil::ends_with("asdf", "as"), false);
 }
