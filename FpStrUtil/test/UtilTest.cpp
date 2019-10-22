@@ -10,7 +10,8 @@ TEST(StringUtilTest, stringUtilTest) {
     EXPECT_EQ(StringUtil::toLower("ASdF"), "asdf");
     EXPECT_EQ(StringUtil::toLower("ASDF"), "asdf");
 
-    EXPECT_EQ(StringUtil::capitalize("asdf"),"Asdf");
+    EXPECT_EQ(StringUtil::capitalize("asdf"), "Asdf");
+    EXPECT_EQ(StringUtil::unCapitalize("Asdf"), "asdf");
 
     EXPECT_EQ(StringUtil::isEmpty(""), true);
     EXPECT_EQ(StringUtil::isEmpty("a"), false);
@@ -44,8 +45,8 @@ TEST(StringUtilTest, stringUtilTest) {
     EXPECT_EQ(StringUtil::substringBefore("zxcv", "xc"), "z");
     EXPECT_EQ(StringUtil::substringAfter("zxcv", "zx"), "cv");
 
-    EXPECT_EQ(StringUtil::start_with("asdf", "as"), true);
-    EXPECT_EQ(StringUtil::start_with("asdf", "df"), false);
+    EXPECT_EQ(StringUtil::starts_with("asdf", "as"), true);
+    EXPECT_EQ(StringUtil::starts_with("asdf", "df"), false);
 
     EXPECT_EQ(StringUtil::ends_with("asdf", "df"), true);
     EXPECT_EQ(StringUtil::ends_with("asdf", "as"), false);
@@ -57,6 +58,9 @@ TEST(StringUtilTest, stringUtilTest) {
     EXPECT_EQ(StringUtil::trim_right("  asdf\n\n", "\n"), "  asdf");
     EXPECT_EQ(StringUtil::trim_left("\n\nasdf  ", "\n"), "asdf  ");
     EXPECT_EQ(StringUtil::trim("\n\nasdf\n\n", "\n"), "asdf");
+
+    EXPECT_EQ(StringUtil::join( { "asdf", "zxcv" }, ","), "asdf,zxcv");
+
 }
 
 int main(int argc, char** argv) {

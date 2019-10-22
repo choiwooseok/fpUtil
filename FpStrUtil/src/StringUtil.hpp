@@ -12,6 +12,7 @@
 #include <cctype>
 #include <chrono>
 #include <functional>
+#include <initializer_list>
 #include <iterator>
 #include <random>
 #include <string>
@@ -39,6 +40,12 @@ public:
         return ret;
     }
 
+    static std::string unCapitalize(const std::string& str) {
+        std::string ret(str);
+        ret[0] = ::tolower(ret[0]);
+        return ret;
+    }
+
     static bool isEmpty(const std::string& str) {
         return str.empty();
     }
@@ -60,6 +67,11 @@ public:
     static std::string trim(const std::string& source, const std::string& whitespaces) {
         std::string str(source);
         return trim_left(trim_right(str, whitespaces), whitespaces);
+    }
+
+    static std::string strip(const std::string& source) {
+        std::string str(source);
+        return trim(trim(trim(trim(str, " "), "\t"), "\r"), "\n");
     }
 
     static std::string makeZeroPrependDigit(long long value, unsigned int digit) {
@@ -135,12 +147,55 @@ public:
         return str.find(separator) == std::string::npos ? "" : str.substr(str.find(separator) + separator.length());
     }
 
-    static bool start_with(std::string const &fullString, const std::string& starting) {
-        return fullString.length() >= starting.length() ? (0 == fullString.compare(0, starting.length(), starting)) : false;
+    static bool starts_with(const std::string &src, const std::string& starting) {
+        return src.length() >= starting.length() ? (0 == src.compare(0, starting.length(), starting)) : false;
     }
 
-    static bool ends_with(std::string const &fullString, const std::string& ending) {
-        return fullString.length() >= ending.length() ? (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending)) : false;
+    static bool ends_with(const std::string& src, const std::string& ending) {
+        return src.length() >= ending.length() ? (0 == src.compare(src.length() - ending.length(), ending.length(), ending)) : false;
+    }
+
+    static std::vector<std::string> split(const std::string& source, const std::string& delim) {
+        // not good approach -> use template like boost
+        size_t pos_start = 0, pos_end, delim_len = delim.length();
+        std::vector<std::string> res;
+
+        while ((pos_end = source.find(delim, pos_start)) != std::string::npos) {
+            std::string token = source.substr(pos_start, pos_end - pos_start);
+            pos_start = pos_end + delim_len;
+            res.push_back(token);
+        }
+
+        res.push_back(source.substr(pos_start));
+        return res;
+    }
+
+    static std::string join(const std::vector<std::string>& splited_string, const std::string& delim) {
+        if (splited_string.empty()) {
+            return "";
+        }
+
+        typename std::vector<std::string>::const_iterator const_it = splited_string.begin();
+        std::string ret = *const_it++;
+        for (; const_it != splited_string.end(); ++const_it) {
+            ret += delim;
+            ret += *const_it;
+        }
+        return ret;
+    }
+
+    static bool contains(const std::string& src, const std::string& sub) {
+        return src.empty() ? false : src.find(sub) != std::string::npos;
+    }
+
+    static std::string replace_all_copy(const std::string& str, const std::string& from, const std::string& to) {
+        std::string ret(str);
+        size_t start_pos = 0;
+        while ((start_pos = ret.find(from, start_pos)) != std::string::npos) {
+            ret.replace(start_pos, from.length(), to);
+            start_pos += to.length();
+        }
+        return ret;
     }
 
 public:
