@@ -61,6 +61,8 @@ TEST(StringUtilTest, stringUtilTest) {
 
     EXPECT_EQ(StringUtil::join( { "asdf", "zxcv" }, ","), "asdf,zxcv");
 
+    // PR TEST
+    EXPECT_EQ(StringUtil::join( { "asdf", "zxcv" }, ","), "asdf,zxcv");
 }
 
 int main(int argc, char** argv) {
