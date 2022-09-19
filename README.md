@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/choiwooseok/fputil/badge)](https://www.codefactor.io/repository/github/choiwooseok/fputil)
+
 # fpStrUtil
 c++ Functional Programming String Utility Proj
 
